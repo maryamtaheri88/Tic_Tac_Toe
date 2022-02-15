@@ -53,9 +53,11 @@ class MainActivity : AppCompatActivity() {
         addToBoard(view)
 
         if (checkForVictiry(NOUGHT)){
+            noughtsScore++
             result("Noughts wins")
         }
         if (checkForVictiry(CROSS)){
+            crossesScore++
             result("Cross wins")
         }
 
@@ -66,20 +68,40 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkForVictiry(s: String): Boolean {
 
+        //Horizontal Victor
+        if (match(binding.a1,s) && match(binding.a2,s) && match(binding.a3,s))
+            return true
+        if (match(binding.b1,s) && match(binding.b2,s) && match(binding.b3,s))
+            return true
+        if (match(binding.c1,s) && match(binding.c2,s) && match(binding.c3,s))
+            return true
 
-            if (match(binding.a1,s) && match(binding.a2,s) && match(binding.a3,s))
-                return true
 
+        //Vertival Victor
+        if (match(binding.a1,s) && match(binding.b1,s) && match(binding.c1,s))
+            return true
+        if (match(binding.a2,s) && match(binding.b2,s) && match(binding.c2,s))
+            return true
+        if (match(binding.a3,s) && match(binding.b3,s) && match(binding.c3,s))
+            return true
 
+        //Diagonal Victor
+        if (match(binding.a1,s) && match(binding.b2,s) && match(binding.c3,s))
+            return true
+        if (match(binding.a3,s) && match(binding.b2,s) && match(binding.c1,s))
+            return true
 
+        return false
 
     }
 
     private fun match(button: Button,symbol:String):Boolean = button.text ==symbol
 
     private fun result(title: String) {
+        val message ="\nNoughts $noughtsScore\n\nCrosses $crossesScore"
         AlertDialog.Builder(this)
             .setTitle(title)
+            .setMessage(message)
             .setPositiveButton("Reset")
             { _, _ ->
                 restBoard()
